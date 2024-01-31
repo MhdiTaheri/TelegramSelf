@@ -1,8 +1,8 @@
 [![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://github.com/MhdiTaheri/TelegramSelf)
 [![GPL-3.0 License](https://img.shields.io/badge/License-GPL--3.0-blue?style=for-the-badge)](./LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/MhdiTaheri/TelegramSelf?style=for-the-badge)](https://github.com/MhdiTaheri/TelegramSelf/issues)
-[![GitHub stars](https://img.shields.io/github/stars/MhdiTaheri/TelegramSelf?style=for-the-badge)](https://github.com/MhdiTaheri/TelegramSelf/stargazers)
-![GitHub forks](https://img.shields.io/github/forks/MhdiTaheri/TelegramSelf?style=for-the-badge)
+[![GitHub stars](https://img.shields.io/github/stars/MhdiTaheri/telegramself?style=for-the-badge)](https://github.com/MhdiTaheri/TelegramSelf/stargazers)
+![GitHub forks](https://img.shields.io/github/forks/MhdiTaheri/telegramself?style=for-the-badge)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/MhdiTaheri/TelegramSelf?style=for-the-badge)](https://github.com/MhdiTaheri/TelegramSelf/pulls)
 
 > [!IMPORTANT]  
