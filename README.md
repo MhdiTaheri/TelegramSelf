@@ -1,4 +1,3 @@
-# سلف تلگرام
 [![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://github.com/MhdiTaheri/TelegramSelf)
 [![GPL-3.0 License](https://img.shields.io/badge/License-GPL--3.0-blue?style=for-the-badge)](./LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/MhdiTaheri/TelegramSelf?style=for-the-badge)](https://github.com/MhdiTaheri/TelegramSelf/issues)
