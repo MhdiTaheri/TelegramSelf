@@ -40,3 +40,6 @@ nohup python3 main.py &
 
 ## حرف آخر
 با اینکه آپشن تایم نیم و بیو هست ولی **اگر نیاز دارید ساعت رو بدونید لطفا به بالای صفحه گوشی خودتون یا پایین مانیتور نگاه کنید، تلگرام برای نمایش ساعت در بیو و اسم ساخته نشده!**
+
+## Star History
+[![Star History Chart](https://api.star-history.com/svg?repos=MhdiTaheri/TelegramSelf&type=Date)](https://star-history.com/#MhdiTaheri/TelegramSelf&Date)
