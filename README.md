@@ -1,4 +1,16 @@
-<h1 align="center">سلف تلگرام</h1>
+# سلف تلگرام
+[![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://github.com/MhdiTaheri/TelegramSelf)
+[![GPL-3.0 License](https://img.shields.io/badge/License-GPL--3.0-blue?style=for-the-badge)](./LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/MhdiTaheri/TelegramSelf?style=for-the-badge)](https://github.com/MhdiTaheri/TelegramSelf/issues)
+[![GitHub stars](https://img.shields.io/github/stars/MhdiTaheri/TelegramSelf?style=for-the-badge)](https://github.com/MhdiTaheri/TelegramSelf/stargazers)
+![GitHub forks](https://img.shields.io/github/forks/MhdiTaheri/TelegramSelf?style=for-the-badge)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/MhdiTaheri/TelegramSelf?style=for-the-badge)](https://github.com/MhdiTaheri/TelegramSelf/pulls)
+
+> [!IMPORTANT]  
+> در صورت استفاده نادرست و دلیت شدن اکانت شما بنده هیچ مسئولیتی در این مورد ندارم
+
+> [!TIP]  
+> ربات حدود 1 سال پیش ساخته شده و تا قبل پابلیش شدن مشکلی نداشته در صورت پیدا کردن مشکل در قسمت issues تاپیک مرتبط درج کنید تا در اثرا وقت مشکل رفع شود
 
 ## نصب و آماده سازی
 
