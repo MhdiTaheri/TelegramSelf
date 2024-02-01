@@ -1,6 +1,6 @@
-from library import *
-from Information import *
-from updater import *
+from .library import *
+from .Information import *
+from .updater import *
 
 async def help_1(event):
         panel = f'''
