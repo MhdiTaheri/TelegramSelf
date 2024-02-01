@@ -1,4 +1,4 @@
-from library import *
+from .library import *
 
 admin_user_id = 1234 #<---- آیدی عددی شما
 api_id = 1234 #<---- api آیدی شما
