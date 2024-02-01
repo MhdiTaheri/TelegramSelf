@@ -1,25 +1,24 @@
-pip install telethon
-pip install datetime
-pip install asyncio
-pip install psutil
-pip install requests
-pip install urllib3
-pip install wikipedia
-pip install pytz
-pip install spotipy
-pip install pytube
-pip install googlesearch-python
-pip install googletrans==4.0.0-rc1
-pip install beautifulsoup4
-pip install persiantools.jdatetime
-pip install pillow
-pip install gtts
-pip install youtube-dl
-pip install geopy
-pip install timezonefinder
-pip install qrcode
-pip install yt_dlp
-pip install whois
-pip install aiohttp
-pip install persiantools
-pip install jdatetime
+telethon
+datetime
+asyncio
+psutil
+requests
+urllib3
+wikipedia
+pytz
+spotipy
+pytube
+googlesearch-python
+googletrans==4.0.0-rc1
+beautifulsoup4
+pillow
+gtts
+youtube-dl
+geopy
+timezonefinder
+qrcode
+yt_dlp
+whois
+aiohttp
+persiantools
+jdatetime
