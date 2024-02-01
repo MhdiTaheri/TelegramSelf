@@ -1,6 +1,6 @@
-from library import *
-from Information import *
-from updater import *
+from .library import *
+from .Information import *
+from .updater import *
 
 async def send_welcome_message():
     admin_user = await client.get_entity(admin_user_id)
