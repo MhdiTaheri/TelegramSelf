@@ -1,5 +1,5 @@
-from library import *
-from Information import *
+from .library import *
+from .Information import *
 
 def get_user_bio():
     with open('settings/bio.txt', 'r') as f:
