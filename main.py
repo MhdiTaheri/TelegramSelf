@@ -1,4 +1,5 @@
 #coded by @DevSeyed in Telegram
+from lib import *
 from library import *
 from Information import *
 from command import *
