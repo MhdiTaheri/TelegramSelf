@@ -1,10 +1,5 @@
 #coded by @DevSeyed in Telegram
 from lib import *
-from library import *
-from Information import *
-from command import *
-from updater import *
-from helpertx import *
 
 settings_folder = 'settings'
 file_defaults = {
