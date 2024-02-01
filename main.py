@@ -44,6 +44,8 @@ async def handle_inline(event):
                 await help_2(event)
             elif event.raw_text == '/help 3':
                 await help_3(event)
+            elif event.raw_text == '/help 4':
+                await help_4(event)
         except Exception as e:
             await event.reply(f"Error sending panel: {e}")
 
