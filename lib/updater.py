@@ -32,7 +32,7 @@ async def update_last_name():
                 current_time_str = current_time_str.replace("0", "⁰").replace("1", "¹").replace("2", "²").replace("3", "³").replace("4", "⁴").replace("5", "⁵").replace("6", "⁶").replace("7", "⁷").replace("8", "⁸").replace("9", "⁹")
             
             
-            heart_list = ['🤎', '💜', '💙', '💚', '💛', '❤']
+            heart_list = ['❤️', '💛', '💚', '💙', '💜', '🖤', '🤍', '🧡', '💖', '💗', '💓', '💞', '💕', '💘', '💝', '💟', '🩵']
             heart = random.choice(heart_list)
 
             with open('settings/nameinfo.txt', 'r') as f:
@@ -69,7 +69,7 @@ async def update_about():
                 current_time_str = current_time_str.replace("0", "⁰").replace("1", "¹").replace("2", "²").replace("3", "³").replace("4", "⁴").replace("5", "⁵").replace("6", "⁶").replace("7", "⁷").replace("8", "⁸").replace("9", "⁹")
                 persian_date = persian_date.replace("0", "⁰").replace("1", "¹").replace("2", "²").replace("3", "³").replace("4", "⁴").replace("5", "⁵").replace("6", "⁶").replace("7", "⁷").replace("8", "⁸").replace("9", "⁹")
                 
-            heart_list = ['🤎', '💜', '💙', '💚', '💛', '❤']
+            heart_list = ['❤️', '💛', '💚', '💙', '💜', '🖤', '🤍', '🧡', '💖', '💗', '💓', '💞', '💕', '💘', '💝', '💟', '🩵']
             heart = random.choice(heart_list)
 
             bio = get_user_bio().replace("time", current_time_str).replace("heart", heart).replace("DATE", persian_date)
