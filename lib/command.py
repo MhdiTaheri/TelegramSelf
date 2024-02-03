@@ -773,7 +773,7 @@ async def whois_domain(event):
             domain = text.replace('/whois', '').strip()
 
             if domain:
-                domain_info = get_whois(domain)
+                domain_info = whois.whois(domain)
                 message = f"**Domain: {domain}\n\n**"
                 message += f"**Registrar: {domain_info.registrar}\n**"
                 message += f"**Registered Name: {domain_info.name}\n**"
