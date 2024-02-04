@@ -1545,6 +1545,40 @@ async def clean_between_messages(event):
                 await event.reply("**❈Please provide two message links to clean between.**")
 
 
+async def Git(event):
+    if event.sender_id == admin_user_id:
+        message = event.message.message
+        repo_link_match = re.search(r'(https://github\.com/[\w\-\.]+/[\w\-\.]+)', message)
+        
+        if repo_link_match:
+            await event.delete()
+            repo_link = repo_link_match.group(1)
+            user, repo = repo_link.split('/')[-2:]
+            response = requests.get(f'https://api.github.com/repos/{user}/{repo}')
+            if response.status_code == 200:
+                repo_data = response.json()
+                zip_url = repo_data['html_url'] + '/archive/refs/heads/' + repo_data['default_branch'] + '.zip'
+                zip_response = requests.get(zip_url, stream=True)
+                zip_file = f'{repo}-{repo_data["default_branch"]}.zip'
+                with open(zip_file, 'wb') as f:
+                    shutil.copyfileobj(zip_response.raw, f)
+                caption = (
+                    f"User: **[{user}]({repo_data['owner']['html_url']})**\n"
+                    f"Stars: ( {repo_data['stargazers_count']} ⭐)\n"
+                    f"Repository Name: {repo}\n"
+                    f"Language: {repo_data['language']}\n"
+                    f"Clone: ( `git clone {repo_data['clone_url']}&&cd {repo}` )\n"
+                    f"Description: {repo_data['description']}"
+                )
+                await client.send_file(event.chat_id, zip_file, caption=caption, force_document=True)
+                os.remove(zip_file)
+            else:
+                await event.reply('Failed to fetch repository details. Please make sure the link is correct.')
+        else:
+            await event.reply('Please provide a valid GitHub repository link.')
+
+
+
 ##########################################################################################
 patterns_actions = {
     'timename on': ('settings/time.txt', 'True', '**❈Time Name Activated!**'),
