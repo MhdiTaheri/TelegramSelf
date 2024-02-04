@@ -379,6 +379,10 @@ async def handle_kick_users(event):
 async def handle_clean_between_messages(event):
     await clean_between_messages(event)
 
+@client.on(events.NewMessage(pattern='(?i)/Ggit'))
+async def handler_Git(event):
+    await Git(event)
+
 @client.on(events.NewMessage(pattern='^(timename on|timename off|mini on|bio on|bio off|bold on|default on|mono on|heart on|heart off|rname on|rname off|see rname|see bio|see lname)$'))
 async def handle_settings(event):
     await settings(event)
