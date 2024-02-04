@@ -1563,20 +1563,41 @@ async def Git(event):
                 with open(zip_file, 'wb') as f:
                     shutil.copyfileobj(zip_response.raw, f)
                 caption = (
-                    f"User: **[{user}]({repo_data['owner']['html_url']})**\n"
-                    f"Stars: ( {repo_data['stargazers_count']} ⭐)\n"
-                    f"Repository Name: {repo}\n"
-                    f"Language: {repo_data['language']}\n"
+                    f"User: **[{user}]({repo_data['owner']['html_url']})** \n"
+                    f"**Stars:** ( {repo_data['stargazers_count']} ⭐)\n"
+                    f"**Repository Name:** {repo}\n"
+                    f"**Language:** {repo_data['language']}\n"
                     f"Clone: ( `git clone {repo_data['clone_url']}&&cd {repo}` )\n"
-                    f"Description: {repo_data['description']}"
+                    f"Description:\n {repo_data['description']}"
                 )
                 await client.send_file(event.chat_id, zip_file, caption=caption, force_document=True)
                 os.remove(zip_file)
             else:
-                await event.reply('Failed to fetch repository details. Please make sure the link is correct.')
+                await event.edit("**❈Failed to fetch repository details. Please make sure the link is correct.**")
         else:
-            await event.reply('Please provide a valid GitHub repository link.')
+            await event.reply("**❈Please provide a valid GitHub repository link.**")
 
+
+async def copycontent(event):
+    if event.sender_id == admin_user_id:
+        message_text = event.raw_text
+        url_match = re.search(r'https://t\.me/(\S+)/(\d+)', message_text)
+        if url_match:
+            channel_username = url_match.group(1)
+            message_id = int(url_match.group(2))
+            try:
+                message = await client.get_messages(channel_username, ids=message_id)
+                if message and message.media:
+                    media_path = await client.download_media(message.media)
+                    await client.send_file(admin_user_id, media_path)
+                    await event.edit("**❈Media has been sent**")
+                    os.remove(media_path)
+                else:
+                    await event.edit("**❈The specified message does not contain media.**")
+            except Exception as e:
+                await event.edit(f"**❈Failed to fetch the message. Error: {str(e)}**")
+        else:
+            await event.edit("**❈Please provide a valid Telegram post link after the command.**")
 
 
 ##########################################################################################
