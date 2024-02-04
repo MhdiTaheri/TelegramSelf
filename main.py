@@ -111,6 +111,7 @@ async def handle_wiki(event):
 async def handle_save_message(event):
     await save_message(event)
 
+
 #Auto Save
 @client.on(events.NewMessage)
 async def save_self_destructing_media(event):
@@ -133,7 +134,8 @@ async def save_self_destructing_media(event):
     except Exception as e:
         await event.respond(f"❈ Error while saving self-destructing media: {str(e)}")
 # End Auto Save
-        
+
+
 @client.on(events.NewMessage(pattern='/addbio'))
 async def handle_add_bio(event):
     await add_bio(event)
