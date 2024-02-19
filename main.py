@@ -34,7 +34,11 @@ async def handle_start_command(event):
 async def handle_inline(event):
     if event.sender_id == admin_user_id:
         try:
-            if event.raw_text == '/help 1':
+            if event.raw_text == '/help':
+                result = await client.inline_query(f'{helper_username}', "/panel")
+                await result[0].click(event.chat_id)
+                await event.delete()
+            elif event.raw_text == '/help 1':
                 await help_1(event)
             elif event.raw_text == '/help 2':
                 await help_2(event)
@@ -111,7 +115,6 @@ async def handle_wiki(event):
 async def handle_save_message(event):
     await save_message(event)
 
-
 #Auto Save
 @client.on(events.NewMessage)
 async def save_self_destructing_media(event):
@@ -134,8 +137,7 @@ async def save_self_destructing_media(event):
     except Exception as e:
         await event.respond(f"❈ Error while saving self-destructing media: {str(e)}")
 # End Auto Save
-
-
+        
 @client.on(events.NewMessage(pattern='/addbio'))
 async def handle_add_bio(event):
     await add_bio(event)
@@ -279,7 +281,7 @@ async def handle_get_football_stats(event):
     await get_football_stats(event)
 
 @client.on(events.NewMessage(pattern='/setcolor'))
-async def apply_color_filter(event):
+async def handle_apply_color_filter(event):
     await apply_color_filter(event)
 
 @client.on(events.NewMessage(pattern='/flood (\d+) - ([\w,]+)'))
@@ -348,7 +350,6 @@ async def handle_get_ip_info(event):
 async def handle_extract_files(event):
     await extract_files(event)
 
-
 @client.on(events.NewMessage(pattern='Stv'))
 async def handle_send_tv_channels(event):
     await send_tv_channels(event)
@@ -388,6 +389,59 @@ async def handler_Git(event):
 @client.on(events.NewMessage(pattern='/copycontent'))
 async def handler_copycontent(event):
     await copycontent(event)
+
+@client.on(events.NewMessage(pattern='ReadAllPvs'))
+async def handle_read_all_pvs(event):
+    await read_all_pvs(event)
+
+@client.on(events.NewMessage(pattern='ReadallGps'))
+async def handle_read_all_groups(event):
+    await read_all_groups(event)
+
+@client.on(events.NewMessage(pattern='ReadAllChannels'))
+async def handle_read_all_channels(event):
+    await read_all_channels(event)
+
+@client.on(events.NewMessage(pattern='ReadAllBots'))
+async def handle_read_all_bots(event):
+    await read_all_bots(event)
+
+@client.on(events.NewMessage(pattern='typing on'))
+async def handle_start_typing(event):
+    await start_typing(event)
+
+@client.on(events.NewMessage(pattern='typing off'))
+async def handle_stop_typing(event):
+    await stop_typing(event)
+
+@client.on(events.NewMessage(pattern='DelVideos'))
+async def delete_videos(event):
+    await delete_media(event, media_type='video')
+
+@client.on(events.NewMessage(pattern='DelPhotos'))
+async def delete_photos(event):
+    await delete_media(event, media_type='photo')
+
+@client.on(events.NewMessage(pattern='DelVoices'))
+async def delete_voices(event):
+    await delete_media(event, media_type='voice')
+
+@client.on(events.NewMessage(pattern='DelFiles'))
+async def delete_files(event):
+    await delete_media(event, media_type='document')
+
+@client.on(events.NewMessage(pattern='DelVideoNotes'))
+async def delete_video_notes(event):
+    await delete_media(event, media_type='video_note')
+
+@client.on(events.NewMessage(pattern='DelGifs'))
+async def delete_gifs(event):
+    await delete_media(event, media_type='gif')
+
+@client.on(events.NewMessage(pattern='Pvinfo'))
+async def handle_pvinfo(event):
+    await pvinfo(event)
+
 
 @client.on(events.NewMessage(pattern='^(timename on|timename off|mini on|bio on|bio off|bold on|default on|mono on|heart on|heart off|rname on|rname off|see rname|see bio|see lname)$'))
 async def handle_settings(event):
