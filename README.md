@@ -2,7 +2,6 @@
 [![GPL-3.0 License](https://img.shields.io/badge/License-GPL--3.0-blue?style=for-the-badge)](./LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/MhdiTaheri/TelegramSelf?style=for-the-badge)](https://github.com/MhdiTaheri/TelegramSelf/issues)
 [![GitHub stars](https://img.shields.io/github/stars/MhdiTaheri/telegramself?style=for-the-badge)](https://github.com/MhdiTaheri/TelegramSelf/stargazers)
-![GitHub forks](https://img.shields.io/github/forks/MhdiTaheri/telegramself?style=for-the-badge)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/MhdiTaheri/TelegramSelf?style=for-the-badge)](https://github.com/MhdiTaheri/TelegramSelf/pulls)
 
 > [!IMPORTANT]  
@@ -31,10 +30,16 @@ pip install -r requirements.txt
 ```
 python3 main.py
 ```
+```
+python3 helper.py
+```
 
 اگر با بستن ترمینال سلف شما **آف** میشد میتونید از دستور استفاده کنید:
 ```
 nohup python3 main.py &
+```
+```
+nohup python3 helper.py &
 ```
 دستور ها رو میتونید از [اینجا](https://github.com/MhdiTaheri/TelegramSelf/releases/tag/v0.1) یا از خود سلف نگاه کنید
 
