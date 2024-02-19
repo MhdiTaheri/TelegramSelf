@@ -40,7 +40,7 @@ async def update_last_name():
             user_lname = user_lname.replace("time", current_time_str).replace("heart", heart)
             await client(UpdateProfileRequest(last_name=f"{user_lname}"))
         
-        await asyncio.sleep(60 - datetime.datetime.now().second)
+        await asyncio.sleep(60 - datetime.datetime.now(timezone).second)
 
 
 
@@ -75,7 +75,7 @@ async def update_about():
             bio = get_user_bio().replace("time", current_time_str).replace("heart", heart).replace("DATE", persian_date)
             await client(UpdateProfileRequest(about=bio))
 
-        await asyncio.sleep(60 - datetime.datetime.now().second)
+        await asyncio.sleep(60 - datetime.datetime.now(timezone).second)
 
 
 async def update_first_name():
