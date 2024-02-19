@@ -1599,6 +1599,108 @@ async def copycontent(event):
         else:
             await event.edit("**❈Please provide a valid Telegram post link after the command.**")
 
+async def read_all_pvs(event):
+    if event.sender_id == admin_user_id:
+        async for dialog in client.iter_dialogs():
+            if dialog.is_user:
+                await client.send_read_acknowledge(dialog.id)
+        await event.edit("**❈All private messages have been marked as read.**")
+
+async def read_all_groups(event):
+    if event.sender_id == admin_user_id:
+        async for dialog in client.iter_dialogs():
+            if dialog.is_group:
+                await client.send_read_acknowledge(dialog.id)
+        await event.edit("**❈All group messages have been marked as read.**")
+
+async def read_all_channels(event):
+    if event.sender_id == admin_user_id:
+        async for dialog in client.iter_dialogs():
+            if dialog.is_channel:
+                await client.send_read_acknowledge(dialog.id)
+        await event.edit("**❈All channel messages have been marked as read.**")
+
+async def read_all_bots(event):
+    if event.sender_id == admin_user_id:
+        async for dialog in client.iter_dialogs():
+            if dialog.entity.bot:
+                await client.send_read_acknowledge(dialog.id)
+        await event.edit("**❈All messages from bots have been marked as read.**")
+
+typing_status = {}
+async def start_typing(event):
+    if event.sender_id == admin_user_id:
+        chat_id = event.chat_id
+        typing_status[chat_id] = True
+        await event.delete()
+        await client.send_message(admin_user_id,f'**❈start typing now in [Chat](tg://user?id={chat_id})**')
+
+        while typing_status.get(chat_id, False):
+            async with client.action(chat_id, 'typing'):
+                await asyncio.sleep(5)
+
+async def stop_typing(event):
+    if event.sender_id == admin_user_id:
+        chat_id = event.chat_id
+        typing_status[chat_id] = False
+        await event.delete()
+        await client.send_message(admin_user_id,f'**❈stopped typing in [Chat](tg://user?id={chat_id})**')
+
+async def delete_media(event, media_type):
+    if event.sender_id == admin_user_id:
+        if event.is_private or event.is_group:
+            chat_id = event.chat_id
+            deleted_count = 0
+
+            async for message in client.iter_messages(chat_id, reverse=True):
+                if media_type == 'gif' and message.gif:
+                    await message.delete()
+                    deleted_count += 1
+                elif getattr(message, media_type, None):
+                    await message.delete()
+                    deleted_count += 1
+
+            await event.edit(f"**❈Deleted {deleted_count} {media_type}(s).**")
+
+async def pvinfo(event):
+    if event.sender_id == admin_user_id:
+        chat_id = event.chat_id
+        try:
+            total_messages = 0
+            total_media = 0
+            total_voices = 0
+            total_videos = 0
+            total_photos = 0
+            total_documents = 0
+
+            async for message in client.iter_messages(chat_id):
+                total_messages += 1
+                if message.media:
+                    total_media += 1
+                    if hasattr(message.media, 'document'):
+                        if 'video/mp4' in message.media.document.mime_type:
+                            total_videos += 1
+                        elif 'audio' in message.media.document.mime_type:
+                            total_voices += 1
+                        else:
+                            total_documents += 1
+                    elif hasattr(message.media, 'photo'):
+                        total_photos += 1
+
+            response = (
+                f"**Chat Statistics:** \n"
+                f"**Total Messages:** `{total_messages}`\n"
+                f"**Total Media:** `{total_media}` \n"
+                f"**Total Photos:** `{total_photos}` \n"
+                f"**Total Videos:** `{total_videos}` \n"
+                f"**Total Voice Messages:** `{total_voices}` \n"
+                f"**Total Documents:** `{total_documents}` \n"
+            )
+
+            await event.edit(response)
+        except ValueError as e:
+            await event.edit(f"**❈Sorry, I couldn't fetch information for this chat. Please ensure I have the necessary permissions and have interacted with the target chat or user.**")
+
 
 ##########################################################################################
 patterns_actions = {
