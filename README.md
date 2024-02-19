@@ -41,7 +41,7 @@ nohup python3 main.py &
 ```
 nohup python3 helper.py &
 ```
-دستور ها رو میتونید از [اینجا](https://github.com/MhdiTaheri/TelegramSelf/releases/tag/v0.1) یا از خود سلف نگاه کنید
+دستور ها رو میتونید از [اینجا](https://github.com/MhdiTaheri/TelegramSelf/releases/tag/v0.2) یا از خود سلف نگاه کنید
 
 ## آپدیت
 ```
