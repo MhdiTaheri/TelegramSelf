@@ -25,6 +25,8 @@ async def callback(event):
         text = f"به راهنما خوش آمدید چطور میتونم کمکتون کنم؟"
         turn_on_button = Button.inline("✵ᴛɪᴍᴇ ɴᴀᴍᴇ ᴏɴ✵", b"turn_on")
         turn_off_button = Button.inline("✵ᴛɪᴍᴇ ɴᴀᴍᴇ ᴏғғ✵", b"turn_off")
+        turn_on_pic = Button.inline("✵ᴛɪᴍᴇ ᴘɪᴄ ᴏɴ✵", b"turn_on_pic")
+        turn_off_pic = Button.inline("✵ᴛɪᴍᴇ ᴘɪᴄ ᴏғғ✵", b"turn_off_pic")
         turn_on_bio_button = Button.inline("✵ʙɪᴏ ᴏɴ✵", b"turn_on_bio")
         turn_off_bio_button = Button.inline("✵ʙɪᴏ ᴏꜰꜰ✵", b"turn_off_bio")
         bio_button = Button.inline("✵sᴇᴇ ʙɪᴏ✵", b"bio")
@@ -34,7 +36,8 @@ async def callback(event):
         
         buttons = [
             [turn_on_button, turn_off_button],
-            [turn_on_bio_button, turn_off_bio_button],
+            [turn_on_bio_button, turn_off_pic],
+            [turn_on_pic, turn_off_bio_button],
             [bio_button,fonts_button],
             [help_button],
             [next_button]
@@ -47,6 +50,8 @@ async def callback(event):
         text = f"به راهنما خوش آمدید چطور میتونم کمکتون کنم؟"
         turn_on_button = Button.inline("✵ᴛɪᴍᴇ ɴᴀᴍᴇ ᴏɴ✵", b"turn_on")
         turn_off_button = Button.inline("✵ᴛɪᴍᴇ ɴᴀᴍᴇ ᴏғғ✵", b"turn_off")
+        turn_on_pic = Button.inline("✵ᴛɪᴍᴇ ᴘɪᴄ ᴏɴ✵", b"turn_on_pic")
+        turn_off_pic = Button.inline("✵ᴛɪᴍᴇ ᴘɪᴄ ᴏғғ✵", b"turn_off_pic")
         turn_on_bio_button = Button.inline("✵ʙɪᴏ ᴏɴ✵", b"turn_on_bio")
         turn_off_bio_button = Button.inline("✵ʙɪᴏ ᴏꜰꜰ✵", b"turn_off_bio")
         bio_button = Button.inline("✵sᴇᴇ ʙɪᴏ✵", b"bio")
@@ -56,7 +61,8 @@ async def callback(event):
         
         buttons = [
             [turn_on_button, turn_off_button],
-            [turn_on_bio_button, turn_off_bio_button],
+            [turn_on_bio_button, turn_off_pic],
+            [turn_on_pic, turn_off_bio_button],
             [bio_button,fonts_button],
             [help_button],
             [next_button]
@@ -117,6 +123,9 @@ async def callback(event):
         \n`/Gmedia`:اگر روی یک ویدیو ریپلی شود ان را در حافظه سلف ذخیره و هر جایی که بخواهید میتوانید ان را ارسال کنید.
         \n`/Ggit` [repo Link] : دانلود ریپازیتوری از گیتهاب
         \n`/copycontent` [post Link] : پست های چنل هایی که فروارد آنها بسته است را سیو میکند
+        \n`tpic` (`set` | `prv`) : برای ست کردن و مشاهده کردن تایم پیک است
+        \n`/logout` : ربات از حساب شما خارج میشود
+        \n`/chkdomain` [domian] : برای برسی در دسترس بودن یا نبودن یک دامنه
         '''
         back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
         help_1 = Button.inline("ᴘᴀɢᴇ Ⅰ", b"help")
@@ -212,6 +221,20 @@ async def callback(event):
         back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
         buttons = [[back_button]]
         text = f"**❈Time Name [DeActivated](tg://user?id={admin_user_id})!**"
+        await event.edit(text, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"turn_on_pic":
+        with open('settings/timepic.txt', 'w') as f:
+            f.write('True')
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[back_button]]
+        text = f"**❈Time Pic [Activated](tg://user?id={admin_user_id})!**"
+        await event.edit(text, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"turn_off_pic":
+        with open('settings/timepic.txt', 'w') as f:
+            f.write('False')
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[back_button]]
+        text = f"**❈Time Pic [DeActivated](tg://user?id={admin_user_id})!**"
         await event.edit(text, buttons=buttons)
     elif event.sender_id == admin_user_id and event.data == b"turn_on_bio":
         with open('settings/bioinfo.txt', 'w') as f:
