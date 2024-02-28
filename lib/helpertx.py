@@ -6,6 +6,7 @@ async def help_1(event):
         panel = f'''
         از دستورات زیر استفاده کنید:
         \n`timename` on|off : زمان در اسم روشن|خاموش
+        \n`timepic` on|off : زمان در پروفایل روشن|خاموش
         \n`mini` on : فونت مینی روشن
         \n`bio` on|off : بیو روشن|خاموش
         \n`default` on : فونت عادی
