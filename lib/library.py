@@ -41,6 +41,7 @@ import zipfile
 import jdatetime
 import qrcode
 import aiohttp
+import subprocess
 from math import ceil
 from yt_dlp import YoutubeDL
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -49,7 +50,7 @@ from googletrans import LANGUAGES, Translator
 from bs4 import BeautifulSoup
 from persiantools.jdatetime import JalaliDate
 from io import BytesIO
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 from gtts import gTTS
 from pytube import YouTube
 from geopy.geocoders import Nominatim
