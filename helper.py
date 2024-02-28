@@ -1,8 +1,74 @@
-from .library import *
-from .Information import *
-from .updater import *
+from telethon import Button, types
+from lib import *
 
-async def help_1(event):
+client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
+
+@client.on(events.InlineQuery)
+async def inline_handler(event):
+    if event.sender_id == admin_user_id and event.text == "/panel":
+        text = f"سلام ادمین عزیز لطفا زبان هلپر را انتخاب کنید"
+        buttons = [[Button.inline("فارسی 🇮🇷", b"langfa")]]
+        builder = event.builder
+        result = builder.article(
+            title="هلپر",
+            description="راهنما",
+            text=text,
+            buttons=buttons
+        )
+        await event.answer([result])
+    else:
+        pass
+
+@client.on(events.CallbackQuery)
+async def callback(event):
+    if event.sender_id == admin_user_id and event.data == b"langfa":
+        text = f"به راهنما خوش آمدید چطور میتونم کمکتون کنم؟"
+        turn_on_button = Button.inline("✵ᴛɪᴍᴇ ɴᴀᴍᴇ ᴏɴ✵", b"turn_on")
+        turn_off_button = Button.inline("✵ᴛɪᴍᴇ ɴᴀᴍᴇ ᴏғғ✵", b"turn_off")
+        turn_on_pic = Button.inline("✵ᴛɪᴍᴇ ᴘɪᴄ ᴏɴ✵", b"turn_on_pic")
+        turn_off_pic = Button.inline("✵ᴛɪᴍᴇ ᴘɪᴄ ᴏғғ✵", b"turn_off_pic")
+        turn_on_bio_button = Button.inline("✵ʙɪᴏ ᴏɴ✵", b"turn_on_bio")
+        turn_off_bio_button = Button.inline("✵ʙɪᴏ ᴏꜰꜰ✵", b"turn_off_bio")
+        bio_button = Button.inline("✵sᴇᴇ ʙɪᴏ✵", b"bio")
+        fonts_button = Button.inline("✵ᴄʜᴀɴɢᴇ ғᴏɴᴛ✵", b"fonts")
+        help_button = Button.inline("✵ʜᴇʟᴘ✵", b"help")
+        next_button = Button.inline("✘ᴄʟᴏsᴇ✘", b"close_panel")
+        
+        buttons = [
+            [turn_on_button, turn_off_button],
+            [turn_on_bio_button, turn_off_pic],
+            [turn_on_pic, turn_off_bio_button],
+            [bio_button,fonts_button],
+            [help_button],
+            [next_button]
+        ]
+        await event.edit(text,buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"close_panel":
+        close_panel_message = f'✵𝐏𝐚𝐧𝐞𝐥 𝐂𝐥𝐨𝐬𝐞𝐝 𝐁𝐲 [𝐀𝐝𝐦𝐢𝐧](tg://user?id={admin_user_id})'
+        await event.edit(close_panel_message)
+    elif event.sender_id == admin_user_id and event.data == b"Back":
+        text = f"به راهنما خوش آمدید چطور میتونم کمکتون کنم؟"
+        turn_on_button = Button.inline("✵ᴛɪᴍᴇ ɴᴀᴍᴇ ᴏɴ✵", b"turn_on")
+        turn_off_button = Button.inline("✵ᴛɪᴍᴇ ɴᴀᴍᴇ ᴏғғ✵", b"turn_off")
+        turn_on_pic = Button.inline("✵ᴛɪᴍᴇ ᴘɪᴄ ᴏɴ✵", b"turn_on_pic")
+        turn_off_pic = Button.inline("✵ᴛɪᴍᴇ ᴘɪᴄ ᴏғғ✵", b"turn_off_pic")
+        turn_on_bio_button = Button.inline("✵ʙɪᴏ ᴏɴ✵", b"turn_on_bio")
+        turn_off_bio_button = Button.inline("✵ʙɪᴏ ᴏꜰꜰ✵", b"turn_off_bio")
+        bio_button = Button.inline("✵sᴇᴇ ʙɪᴏ✵", b"bio")
+        fonts_button = Button.inline("✵ᴄʜᴀɴɢᴇ ғᴏɴᴛ✵", b"fonts")
+        help_button = Button.inline("✵ʜᴇʟᴘ✵", b"help")
+        next_button = Button.inline("✘ᴄʟᴏsᴇ✘", b"close_panel")
+        
+        buttons = [
+            [turn_on_button, turn_off_button],
+            [turn_on_bio_button, turn_off_pic],
+            [turn_on_pic, turn_off_bio_button],
+            [bio_button,fonts_button],
+            [help_button],
+            [next_button]
+        ]
+        await event.edit(text,buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"help":
         panel = f'''
         از دستورات زیر استفاده کنید:
         \n`timename` on|off : زمان در اسم روشن|خاموش
@@ -31,9 +97,17 @@ async def help_1(event):
         \n`/setprof` - عکس پروفایل ربات را (با پاسخ به تصویر) تنظیم کنید.
         \n`/rinfo` - با پاسخ دادن به یکی از پیام های کاربر، اطلاعات درباره کاربر را دریافت کنید.
         '''
-        await event.edit(panel)
-
-async def help_2(event):
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        help_1 = Button.inline("ᴘᴀɢᴇ Ⅰ", b"help")
+        help_2 = Button.inline("ᴘᴀɢᴇ Ⅱ", b"help_1")
+        help_3 = Button.inline("ᴘᴀɢᴇ Ⅲ", b"help_2")
+        help_4 = Button.inline("ᴘᴀɢᴇ ɪᴠ", b"help_3")
+        buttons = [
+            [help_1,help_2,help_3,help_4],
+            [back_button]
+        ]
+        await event.edit(panel, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"help_1":
         panel = f'''
         از دستورات زیر استفاده کنید:
         \n`/backupchat`: این دستور می‌تواند برای پشتیبان گیری از تمام تاریخچه گفتگو، از جمله پیام‌ها، تصاویر و سایر محتواها استفاده شود، که می‌تواند برای اهداف بایگانی یا در صورت از دست دادن داده‌ها مفید باشد.
@@ -54,9 +128,17 @@ async def help_2(event):
         \n`/logout` : ربات از حساب شما خارج میشود
         \n`/chkdomain` [domian] : برای برسی در دسترس بودن یا نبودن یک دامنه
         '''
-        await event.edit(panel)
-
-async def help_3(event):
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        help_1 = Button.inline("ᴘᴀɢᴇ Ⅰ", b"help")
+        help_2 = Button.inline("ᴘᴀɢᴇ Ⅱ", b"help_1")
+        help_3 = Button.inline("ᴘᴀɢᴇ Ⅲ", b"help_2")
+        help_4 = Button.inline("ᴘᴀɢᴇ ɪᴠ", b"help_3")
+        buttons = [
+            [help_1,help_2,help_3,help_4],
+            [back_button]
+        ]
+        await event.edit(panel, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"help_2":
         panel = f'''
         از دستورات زیر استفاده کنید:
         \n`/Smedia` [Name]:ارسال ویدیو سیو شده در حافظه سلف.
@@ -79,9 +161,17 @@ async def help_3(event):
         \n`/Sproxy`:دریافت پروکسی رایگان.
         \n`/Sv2ray`:دریافت سرور v2ray رایگان.
         '''
-        await event.edit(panel)
-
-async def help_4(event):
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        help_1 = Button.inline("ᴘᴀɢᴇ Ⅰ", b"help")
+        help_2 = Button.inline("ᴘᴀɢᴇ Ⅱ", b"help_1")
+        help_3 = Button.inline("ᴘᴀɢᴇ Ⅲ", b"help_2")
+        help_4 = Button.inline("ᴘᴀɢᴇ ɪᴠ", b"help_3")
+        buttons = [
+            [help_1,help_2,help_3,help_4],
+            [back_button]
+        ]
+        await event.edit(panel, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"help_3":
         panel = f'''
         از دستورات زیر استفاده کنید:
         \n`/time` [capital of country]: با قرار دادن پایتخت یک کشور زمان آن را به شما نشان می دهد
@@ -109,4 +199,144 @@ async def help_4(event):
         \n`typing` [on|off]: اگه در پیوی کسی بفرستی برای اون شخص حالت تایپینگ میگیری
         \n`Pvinfo`: اطلاعات اون چت میده
         '''
-        await event.edit(panel)
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        help_1 = Button.inline("ᴘᴀɢᴇ Ⅰ", b"help")
+        help_2 = Button.inline("ᴘᴀɢᴇ Ⅱ", b"help_1")
+        help_3 = Button.inline("ᴘᴀɢᴇ Ⅲ", b"help_2")
+        help_4 = Button.inline("ᴘᴀɢᴇ ɪᴠ", b"help_3")
+        buttons = [
+            [help_1,help_2,help_3,help_4],
+            [back_button]
+        ]
+        await event.edit(panel, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"turn_on":
+        with open('settings/time.txt', 'w') as f:
+            f.write('True')
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[back_button]]
+        text = f"**❈Time Name [Activated](tg://user?id={admin_user_id})!**"
+        await event.edit(text, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"turn_off":
+        with open('settings/time.txt', 'w') as f:
+            f.write('False')
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[back_button]]
+        text = f"**❈Time Name [DeActivated](tg://user?id={admin_user_id})!**"
+        await event.edit(text, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"turn_on_pic":
+        with open('settings/timepic.txt', 'w') as f:
+            f.write('True')
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[back_button]]
+        text = f"**❈Time Pic [Activated](tg://user?id={admin_user_id})!**"
+        await event.edit(text, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"turn_off_pic":
+        with open('settings/timepic.txt', 'w') as f:
+            f.write('False')
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[back_button]]
+        text = f"**❈Time Pic [DeActivated](tg://user?id={admin_user_id})!**"
+        await event.edit(text, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"turn_on_bio":
+        with open('settings/bioinfo.txt', 'w') as f:
+            f.write('True')
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[back_button]]
+        text = f"**❈Bio Activated!**"
+        await event.edit(text, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"turn_off_bio":
+        with open('settings/bioinfo.txt', 'w') as f:
+            f.write('False')
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[back_button]]
+        text = f"**❈Bio DeActivated!**"
+        await event.edit(text, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"bio":
+        with open('settings/bio.txt', 'r') as f:
+                bio = f.read()
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[back_button]]
+        text = f"**❈Your Bio : \n{bio}**"
+        await event.edit(text, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"fonts":
+        with open('settings/mode.txt', 'r') as f:
+            mode = f.read().strip()
+        default_font_button = Button.inline("✵ᴅᴇғᴀᴜʟᴛ✵", b"default_font")
+        Mono_font_button = Button.inline("✵ᴍᴏɴᴏ✵", b"Mono_font")
+        bold_font_button = Button.inline("✵ʙᴏʟᴅ✵", b"bold_font")
+        preview_button = Button.inline("✵ʟɪᴠᴇ ᴘʀᴇᴠɪᴇᴡ✵", b"time_page_panel")
+        if mode == "Default":
+            default_font_button = Button.inline("✅ ᴅᴇғᴀᴜʟᴛ", b"default_font")
+        if mode == "Mono":
+            Mono_font_button = Button.inline("✅ ᴍᴏɴᴏ", b"Mono_font")
+        elif mode == "Bold":
+            bold_font_button = Button.inline("✅ ʙᴏʟᴅ", b"bold_font")
+        elif mode == "Mini":
+            Mini_font_button = Button.inline("✅ ᴍɪɴɪ", b"Mini_font")
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[default_font_button], [Mono_font_button], [bold_font_button], [Mini_font_button], [preview_button], [back_button]]
+        font_message = "Select a font option:\n\nNote⚠: To see the preview of available fonts, refer to the second page or select the Live Preview Button"
+        await event.edit(font_message, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"time_page_panel":
+        message = f'This Fonts Are Available Now:\nNote:To choose, you can click on the change font button from the main menu or click on one of the fonts below'
+        current_time = datetime.datetime.now().strftime("%H:%M")
+        current_bold_time = current_time.replace("0", "𝟎").replace("1", "𝟏").replace("2", "𝟐").replace("3", "𝟑").replace("4", "𝟒").replace("5", "𝟓").replace("6", "𝟔").replace("7", "𝟕").replace("8", "𝟖").replace("9", "𝟗")
+        current_mode_time = current_time.replace("0", "０").replace("1", "１").replace("2", "２").replace("3", "３").replace("4", "４").replace("5", "５").replace("6", "６").replace("7", "７").replace("8", "８").replace("9", "９")
+        current_mini_time = current_time_str.replace("0", "⁰").replace("1", "¹").replace("2", "²").replace("3", "³").replace("4", "⁴").replace("5", "⁵").replace("6", "⁶").replace("7", "⁷").replace("8", "⁸").replace("9", "⁹")
+        time_button = Button.inline(text=f"Default: {current_time}", data='fonts')
+        time_bold_button = Button.inline(text=f"Bold: {current_bold_time}", data='fonts')
+        time_mode_button = Button.inline(text=f"Mono: {current_mode_time}", data='fonts')
+        time_mini_button = Button.inline(text=f"Mini: {current_mini_time}", data='fonts')
+        await event.edit(message, buttons=[[time_button, time_bold_button],[time_mode_button,time_mini_button],[Button.inline("Back ⬸", b"Back")]])
+    elif event.sender_id == admin_user_id and event.data == b"default_font":
+        with open('settings/mode.txt', 'w') as f:
+            f.write('Default')
+        Default_message = "Font Mode Change To Default"
+        bold_font_button = Button.inline("✵ʙᴏʟᴅ✵", b"bold_font")
+        Mono_font_button = Button.inline("✵ᴍᴏɴᴏ✵", b"Mono_font")
+        Mini_font_button = Button.inline("✵ᴍɪɴɪ✵", b"Mini_font")
+        preview_button = Button.inline("✵ʟɪᴠᴇ ᴘʀᴇᴠɪᴇᴡ✵", b"time_page_panel")
+        default_font_button = Button.inline("✅ ᴅᴇғᴀᴜʟᴛ", b"default_font")
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[default_font_button], [Mono_font_button], [bold_font_button], [Mini_font_button], [preview_button], [back_button]]
+        await event.edit(Default_message, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"bold_font":
+        with open('settings/mode.txt', 'w') as f:
+            f.write('Bold')
+        Default_message = "Font Mode Change To Bold"
+        bold_font_button = Button.inline("✅ ʙᴏʟᴅ", b"bold_font")
+        Mono_font_button = Button.inline("✵ᴍᴏɴᴏ✵", b"Mono_font")
+        Mini_font_button = Button.inline("✵ᴍɪɴɪ✵", b"Mini_font")
+        preview_button = Button.inline("✵ʟɪᴠᴇ ᴘʀᴇᴠɪᴇᴡ✵", b"time_page_panel")
+        default_font_button = Button.inline("✵ᴅᴇғᴀᴜʟᴛ✵", b"default_font")
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[default_font_button], [Mono_font_button], [bold_font_button], [Mini_font_button], [preview_button], [back_button]]
+        await event.edit(Default_message, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"Mono_font":
+        with open('settings/mode.txt', 'w') as f:
+            f.write('Mono')
+        Default_message = "Font Mode Change To Mono"
+        bold_font_button = Button.inline("✵ʙᴏʟᴅ✵", b"bold_font")
+        Mono_font_button = Button.inline("✅ ᴍᴏɴᴏ", b"Mono_font")
+        Mini_font_button = Button.inline("✵ᴍɪɴɪ✵", b"Mini_font")
+        preview_button = Button.inline("✵ʟɪᴠᴇ ᴘʀᴇᴠɪᴇᴡ✵", b"time_page_panel")
+        default_font_button = Button.inline("✵ᴅᴇғᴀᴜʟᴛ✵", b"default_font")
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[default_font_button], [Mono_font_button], [bold_font_button], [Mini_font_button], [preview_button], [back_button]]
+        await event.edit(Default_message, buttons=buttons)
+    elif event.sender_id == admin_user_id and event.data == b"Mini_font":
+        with open('settings/mode.txt', 'w') as f:
+            f.write('Mini')
+        Default_message = "Font Mode Change To Mini"
+        bold_font_button = Button.inline("✵ʙᴏʟᴅ✵", b"bold_font")
+        Mono_font_button = Button.inline("✵ᴍᴏɴᴏ✵", b"Mono_font")
+        Mini_font_button = Button.inline("✅ ᴍɪɴɪ", b"Mini_font")
+        preview_button = Button.inline("✵ʟɪᴠᴇ ᴘʀᴇᴠɪᴇᴡ✵", b"time_page_panel")
+        default_font_button = Button.inline("✵ᴅᴇғᴀᴜʟᴛ✵", b"default_font")
+        back_button = Button.inline("ʙᴀᴄᴋ ⬸", b"Back")
+        buttons = [[default_font_button], [Mono_font_button], [bold_font_button], [Mini_font_button], [preview_button], [back_button]]
+        await event.edit(Default_message, buttons=buttons)
+    else:
+        await event.answer('دوست عزیز شما ادمین نیستید', alert=True)
+
+client.run_until_disconnected()
