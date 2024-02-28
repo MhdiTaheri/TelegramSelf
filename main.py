@@ -4,6 +4,7 @@ from lib import *
 settings_folder = 'settings'
 file_defaults = {
     'time.txt': 'False',
+    'timepic.txt': 'False',
     'nameinfo.txt': 'time',
     'bioinfo.txt': 'False',
     'heart.txt': 'False',
@@ -11,6 +12,7 @@ file_defaults = {
     'bio.txt': 'time',
     'mode.txt': 'Default',
     'creator.txt': '@DevSeyed',
+    'tpic.json': '{"cordx": 80, "cordy": 230, "size": 50, "color": "white"}',
     'rname.txt': ''
 }
 
@@ -414,6 +416,22 @@ async def handle_start_typing(event):
 async def handle_stop_typing(event):
     await stop_typing(event)
 
+@client.on(events.NewMessage(pattern='sticker on'))
+async def handle_start_sticker(event):
+    await start_sticker(event)
+
+@client.on(events.NewMessage(pattern='sticker off'))
+async def handle_stop_sticker(event):
+    await stop_sticker(event)
+
+@client.on(events.NewMessage(pattern='gaming on'))
+async def handle_start_game(event):
+    await start_game(event)
+
+@client.on(events.NewMessage(pattern='gaming off'))
+async def handle_stop_game(event):
+    await stop_game(event)
+
 @client.on(events.NewMessage(pattern='DelVideos'))
 async def delete_videos(event):
     await delete_media(event, media_type='video')
@@ -442,8 +460,22 @@ async def delete_gifs(event):
 async def handle_pvinfo(event):
     await pvinfo(event)
 
+@client.on(events.NewMessage(pattern='(?i)^/chkdomain'))
+async def handle_check_domain(event):
+    await check_domain(event)
 
-@client.on(events.NewMessage(pattern='^(timename on|timename off|mini on|bio on|bio off|bold on|default on|mono on|heart on|heart off|rname on|rname off|see rname|see bio|see lname)$'))
+@client.on(events.NewMessage(pattern='(?i)^/logout'))
+async def logout_handler(event):
+    await logout(event)
+
+@client.on(events.NewMessage(pattern='tpic'))
+async def handle_tpic_set(event):
+    if event.raw_text == 'tpic set':
+        await tpic_set(event)
+    elif event.raw_text == 'tpic prv':
+        await tpic_prv(event)
+
+@client.on(events.NewMessage(pattern='^(timename on|timename off|timepic on|timepic off|mini on|bio on|bio off|bold on|default on|mono on|rnd on|heart on|heart off|rname on|rname off|see rname|see bio|see lname)$'))
 async def handle_settings(event):
     await settings(event)
 
@@ -451,5 +483,6 @@ client.start()
 client.loop.create_task(update_first_name())
 client.loop.create_task(update_last_name())
 client.loop.create_task(update_about())
+client.loop.create_task(update_profile_photo())
 client.loop.run_until_complete(send_welcome_message())
 client.run_until_disconnected()
