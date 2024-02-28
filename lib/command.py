@@ -6,15 +6,15 @@ async def send_welcome_message():
     admin_user = await client.get_entity(admin_user_id)
     admin_first_name = admin_user.first_name if admin_user.first_name else "there"
     helptxt = f"use `/help 1` command"
-    
+
     try:
         await client(JoinChannelRequest("@TRself"))
     except Exception as e:
         print(f"Failed to join @TRself channel: {e}")
 
-    await client.send_message(admin_user_id, f'Hi {admin_first_name}!\nWelcome to the TRself bot.\n**DEV: @TRself **\n{helptxt}')
+    await client.send_message(admin_user_id, f'Hi {admin_first_name}!\nWelcome to the TRself bot.\n**Dev: @TRself **\n{helptxt}')
 
-
+pic_folder = 'pic/'
 
 def set_user_bio(bio):
     with open('settings/bio.txt', 'w') as f:
@@ -1633,7 +1633,7 @@ async def start_typing(event):
         chat_id = event.chat_id
         typing_status[chat_id] = True
         await event.delete()
-        await client.send_message(admin_user_id,f'**❈start typing now in [Chat](tg://user?id={chat_id})**')
+        await client.send_message(admin_user_id,f"**❈start typing now in** [Chat](tg://user?id={chat_id})")
 
         while typing_status.get(chat_id, False):
             async with client.action(chat_id, 'typing'):
@@ -1644,7 +1644,45 @@ async def stop_typing(event):
         chat_id = event.chat_id
         typing_status[chat_id] = False
         await event.delete()
-        await client.send_message(admin_user_id,f'**❈stopped typing in [Chat](tg://user?id={chat_id})**')
+        await client.send_message(admin_user_id,f"**❈stopped typing in** [Chat](tg://user?id={chat_id})")
+
+sticker_status = {}
+async def start_sticker(event):
+    if event.sender_id == admin_user_id:
+        chat_id = event.chat_id
+        sticker_status[chat_id] = True
+        await event.delete()
+        await client.send_message(admin_user_id,f"**❈start sticker mode now in** [Chat](tg://user?id={chat_id})")
+
+        while sticker_status.get(chat_id, False):
+            async with client.action(chat_id, 'sticker'):
+                await asyncio.sleep(5)
+
+async def stop_sticker(event):
+    if event.sender_id == admin_user_id:
+        chat_id = event.chat_id
+        sticker_status[chat_id] = False
+        await event.delete()
+        await client.send_message(admin_user_id,f"**❈stopped sticker mode in** [Chat](tg://user?id={chat_id})")
+
+game_status = {}
+async def start_game(event):
+    if event.sender_id == admin_user_id:
+        chat_id = event.chat_id
+        game_status[chat_id] = True
+        await event.delete()
+        await client.send_message(admin_user_id,f"**❈start game mode now in** [Chat](tg://user?id={chat_id})")
+
+        while game_status.get(chat_id, False):
+            async with client.action(chat_id, 'game'):
+                await asyncio.sleep(5)
+
+async def stop_game(event):
+    if event.sender_id == admin_user_id:
+        chat_id = event.chat_id
+        game_status[chat_id] = False
+        await event.delete()
+        await client.send_message(admin_user_id,f"**❈stopped game mode in** [Chat](tg://user?id={chat_id})")
 
 async def delete_media(event, media_type):
     if event.sender_id == admin_user_id:
@@ -1702,14 +1740,112 @@ async def pvinfo(event):
             await event.edit(f"**❈Sorry, I couldn't fetch information for this chat. Please ensure I have the necessary permissions and have interacted with the target chat or user.**")
 
 
+async def check_domain(event):
+    if event.sender_id == admin_user_id:
+        await event.edit(f"**❈Pending . . . **")
+        message = event.message.message
+        domain = message.split(' ')[1] if len(message.split(' ')) > 1 else ''
+        if domain:
+            url = f'https://api.ineo-team.ir/domainChecker.php?domain={domain}'
+            response = requests.get(url)
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('ok') and data.get('status') == 'successfully.':
+                    result = data.get('result')
+                    if result:
+                        reply = f"**{domain} status :** \n"
+                        for tld, info in result.items():
+                            reply += f"**{info['domain']}** : `{info['status']['type']}` \n"
+                        await event.edit(reply)
+                else:
+                    await event.edit("**❈Failed to fetch domain information.**")
+            else:
+                await event.edit("**❈Failed to connect to the domain checking service.**")
+        else:
+            await event.edit("**❈Please provide a domain name after the command.**")
+
+async def logout(event):
+    if event.sender_id == admin_user_id:
+        confirmation_msg = await event.edit("**❈ Are you sure you want to log out? Reply 'yes' to confirm.**")
+        
+        try:
+            for _ in range(30):
+                reply = await client.get_messages(entity=event.chat_id, limit=1)
+                if reply and reply[0].message.lower() == 'yes':
+                    await reply[0].delete()
+                    break
+                await asyncio.sleep(1)
+            else:
+                await confirmation_msg.edit("**❌ Logout request timed out.**")
+                return
+        
+        except Exception as e:
+            print(e)
+        
+        await confirmation_msg.edit("**❈ Logging out...**")
+        await asyncio.sleep(3)
+        await client.log_out()
+
+def clear_pic_folder():
+    files = os.listdir(pic_folder)
+    for file in files:
+        os.remove(os.path.join(pic_folder, file))
+
+async def tpic_set(event):
+    if event.sender_id == admin_user_id:
+        try:
+            clear_pic_folder()
+            if event.is_reply:
+                replied_msg = await event.get_reply_message()
+                if replied_msg.photo:
+                    photo = await client.download_media(replied_msg.photo, pic_folder + 'profile.jpg')
+                    await event.edit("**❈ Working . . .**")
+                    if replied_msg.raw_text and '[' in replied_msg.raw_text and ']' in replied_msg.raw_text:
+                        caption = replied_msg.raw_text
+                        coordinates = [int(coord) for coord in caption[caption.index('[') + 1: caption.index(']')].split(',')]
+                        color = caption[caption.index('{') + 1: caption.index('}')]
+                        with open('settings/tpic.json', 'w') as f:
+                            json.dump({'cordx': coordinates[0], 'cordy': coordinates[1], 'size': coordinates[2], 'color': color}, f)
+                        await event.edit("**❈ All Done ✅**")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+async def tpic_prv(event):
+    if event.sender_id == admin_user_id:
+        try:
+            await event.delete()
+            with open('settings/tpic.json', 'r') as f:
+                data = json.load(f)
+                cordx = data['cordx']
+                cordy = data['cordy']
+                size = data['size']
+                color_string = data['color']
+            with Image.open('pic/profile.jpg') as img:
+                draw = ImageDraw.Draw(img)
+                font_path = 'fonts/Freshman.ttf'
+                font_size = size
+                font = ImageFont.truetype(font_path, font_size)
+                color = color_string
+                position = (cordx, cordy)
+                draw.text(position, "TEST", fill=color, font=font)
+                img.save('pic/profile_test.jpg', quality=95)
+                with open('pic/profile_test.jpg', 'rb') as f:
+                    await client.send_file(event.chat_id, f, caption=f"cordx : {cordx}\ncordy : {cordy}\nsize :{size}\ncolor : {color}")
+                os.remove('pic/profile_test.jpg')
+        except:
+            await event.edit("**❈ مشکلی پیش آمده 🗿**")
+
 ##########################################################################################
 patterns_actions = {
     'timename on': ('settings/time.txt', 'True', '**❈Time Name Activated!**'),
     'timename off': ('settings/time.txt', 'False', '**❈Time Name DeActivated!**'),
+    'timepic on': ('settings/timepic.txt', 'True', '**❈Time Pic Activated!**'),
+    'timepic off': ('settings/timepic.txt', 'False', '**❈Time Pic DeActivated!**'),
     'bio on': ('settings/bioinfo.txt', 'True', '**❈Bio Activated!**'),
     'bio off': ('settings/bioinfo.txt', 'False', '**❈Bio DeActivated!**'),
     'bold on': ('settings/mode.txt', 'Bold', '**❈Bold Mode Activated!**'),
     'mini on': ('settings/mode.txt', 'Mini', '**❈Mini Mode Activated!**'),
+    'rnd on': ('settings/mode.txt', 'rnd', '**❈Rnd Mode Activated!**'),
     'default on': ('settings/mode.txt', 'Default', '**❈Default Mode Activated!**'),
     'mono on': ('settings/mode.txt', 'Mono', '**❈Mono Mode Activated!**'),
     'heart on': ('settings/heart.txt', 'True', '**❈heart Activated!**'),
@@ -1737,12 +1873,16 @@ async def settings(event):
 
         if pattern == 'bio off':
             await client(UpdateProfileRequest(about=''))
+        
+        if pattern == 'timepic off':
+            photos = await client.get_profile_photos('me')
+            await client(functions.photos.DeletePhotosRequest(id=[InputPhoto(id=photos[0].id, access_hash=photos[0].access_hash, file_reference=photos[0].file_reference)]))
 
 
         if file_path.endswith('.txt'):
             with open(file_path, 'r') as f:
                 file_content = f.read()
-            if file_content not in ["True", "False", "Bold", "Mono", "Default", "Mini"]:
+            if file_content not in ["True", "False", "Bold", "Mono", "Default", "Mini", "rnd"]:
                 response += f"`{file_content}`"
 
         await event.edit(response)
